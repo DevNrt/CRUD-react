@@ -21,6 +21,7 @@ class App extends React.Component {
     csv: '',
     idvulns: '',
     tipoModal: '',
+    cliente:'',
     count: 1
   }
 
@@ -45,7 +46,8 @@ class App extends React.Component {
       description: this.state.description,
       advice: this.state.advice,
       referencias: this.state.referencias,
-      csv: this.state.csv
+      csv: this.state.csv,
+      cliente: this.state.cliente
     })
       .then(res => {
         console.log(res)
@@ -65,7 +67,8 @@ class App extends React.Component {
       description: vulns.description,
       advice: vulns.advice,
       referencias: vulns.referencias,
-      csv: vulns.csv
+      csv: vulns.csv,
+      cliente: this.state.cliente
     })
   }
 
@@ -79,7 +82,8 @@ class App extends React.Component {
       description: this.state.description,
       advice: this.state.advice,
       referencias: this.state.referencias,
-      csv: this.state.csv
+      csv: this.state.csv,
+      cliente: this.state.cliente
     })
       .then(res => {
         console.log(this.state.idnessus)
@@ -119,7 +123,6 @@ class App extends React.Component {
     this.setState({
       [name]: value
     });
-    console.log(this.state.cve)
   }
 
   prevent = event => {
@@ -138,7 +141,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="insert">
-          <button className="btn btn-success" onClick={() => { this.setState({ count:1 ,idnessus: '', cve: '', name: '', description: '', advice: '', referencias: '', csv: '', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
+          <button className="btn btn-success" onClick={() => { this.setState({ count:1 ,idnessus: '', cve: '', name: '', description: '', advice: '', referencias: '', csv: '', cliente:'', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
         </div>
         <div className="tabless">
           <table class="table table-striped">
@@ -152,6 +155,7 @@ class App extends React.Component {
                 <th scope="col">Consejos</th>
                 <th scope="col">Referencias</th>
                 <th scope="col">CSV</th>
+                <th scope="col">Cliente</th>
                 <th scope="col">Actualizar</th>
                 <th scope="col">Eliminar</th>
               </tr>
@@ -167,6 +171,7 @@ class App extends React.Component {
                   <td>{vulns.advice}</td>
                   <td>{vulns.referencias}</td>
                   <td>{vulns.csv}</td>
+                  <td>{vulns.cliente}</td>
                   <td><button class="btn btn-info" onClick={() => { this.selectVuln(vulns); this.modalInsertar() }}>Actualizar</button></td>
                   <td><button class="btn btn-danger" onClick={() => { this.selectVuln(vulns); this.setState({modalEliminar:true})}}>Eliminar</button></td>
                 </tr>
@@ -190,6 +195,7 @@ class App extends React.Component {
                 <textarea type="text" class="form-control" placeholder="Consejos" name="advice" value={this.state ? this.state.advice : ''} onChange={this.handleChange} ></textarea>
                 <textarea type="text" class="form-control" placeholder="Referencias" name="referencias" value={this.state ? this.state.referencias : ''} onChange={this.handleChange} ></textarea>
                 <input type="number" class="form-control" placeholder="CSV" name="csv" value={this.state ? this.state.csv : ''} onChange={this.handleChange} />
+                <textarea type="text" class="form-control" placeholder="Cliente" name="cliente" value={this.state ? this.state.cliente : ''} onChange={this.handleChange} ></textarea>
               </form>
             </div>
           </ModalBody>
