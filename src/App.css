@@ -10,11 +10,15 @@
   align-items: center;
   justify-content: center;
   background-color:#a1a1a1;
-  height: 450px;
+  height: 480px;
   border-radius: 5%; 
 }
 
 .form input{
+  width: 400px;
+  margin-top: 10px;
+}
+.form textarea{
   width: 400px;
   margin-top: 10px;
 }
@@ -27,7 +31,6 @@
 
 .header label{
   margin-left: 90px;
-  margin-top: 5px;
   font-size: 150%;
   color: white;
 }

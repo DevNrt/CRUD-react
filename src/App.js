@@ -186,9 +186,9 @@ class App extends React.Component {
                 <input type="number" class="form-control" placeholder="Id nessus" name="idnessus" value={this.state ? this.state.idnessus : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="CVE" name="cve" value={this.state ? this.state.cve : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="Nombre de la vulnerabilidad" name="name" value={this.state ? this.state.name : ''} onChange={this.handleChange} />
-                <input type="text" class="form-control" placeholder="Descripción" name="description" value={this.state ? this.state.description : ''} onChange={this.handleChange} />
-                <input type="text" class="form-control" placeholder="Consejos" name="advice" value={this.state ? this.state.advice : ''} onChange={this.handleChange} />
-                <input type="text" class="form-control" placeholder="Referencias" name="referencias" value={this.state ? this.state.referencias : ''} onChange={this.handleChange} />
+                <textarea type="text" class="form-control" placeholder="Descripción" name="description" value={this.state ? this.state.description : ''} onChange={this.handleChange} ></textarea>
+                <textarea type="text" class="form-control" placeholder="Consejos" name="advice" value={this.state ? this.state.advice : ''} onChange={this.handleChange} ></textarea>
+                <textarea type="text" class="form-control" placeholder="Referencias" name="referencias" value={this.state ? this.state.referencias : ''} onChange={this.handleChange} ></textarea>
                 <input type="number" class="form-control" placeholder="CSV" name="csv" value={this.state ? this.state.csv : ''} onChange={this.handleChange} />
               </form>
             </div>
