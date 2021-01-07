@@ -28,7 +28,7 @@ class App extends React.Component {
   //peticiones 
 
   peticionGet = () => {
-    this.state.count=1;
+    this.setState({count:'1'})
     Axios.get("http://localhost:8000/select")
       .then((response) => {
         this.setState({ data: response.data });
@@ -38,7 +38,7 @@ class App extends React.Component {
   }
 
   peticionPost = async () => {
-    this.state.count=1;
+    this.setState({count:'1'})
     await Axios.post("http://localhost:8000/insert", {
       idnessus: this.state.idnessus,
       cve: this.state.cve,
@@ -57,7 +57,7 @@ class App extends React.Component {
   }
 
   selectVuln = (vulns) => {
-    this.state.count=1;
+    this.setState({count:'1'})
     this.setState({
       tipoModal: 'actualizar',
       idvulns: vulns.idvulns,
@@ -73,7 +73,7 @@ class App extends React.Component {
   }
 
   peticionUpdate = async () => {
-    this.state.count=1;
+    this.setState({count:'1'})
     await Axios.post("http://localhost:8000/update", {
       idvulns: this.state.idvulns,
       idnessus: this.state.idnessus,
@@ -95,7 +95,7 @@ class App extends React.Component {
   //delete
 
   peticionDelete = () => {
-    this.state.count=1;
+    this.setState({count:'1'})
     Axios.get("http://localhost:8000/delete",
       {
         params: {
@@ -111,12 +111,12 @@ class App extends React.Component {
   }
 
   modalInsertar = () => {
-    this.state.count=1;
+    this.setState({count:'1'})
     this.setState({ modalInsertar: !this.state.modalInsertar })
   }
 
   handleChange = async event => {
-    this.state.count=1;
+    this.setState({count:'1'})
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -126,18 +126,19 @@ class App extends React.Component {
   }
 
   prevent = event => {
-    this.state.count=1;
+    this.setState({count:'1'})
     event.preventDefault();
   }
 
   componentDidMount() {
-    this.state.count=1;
+    this.setState({count:'1'})
     this.peticionGet();
   }
 
 
 
   render() {
+    const countt = this.setState({count:+1})
     return (
       <div className="App">
         <div className="insert">
@@ -163,7 +164,7 @@ class App extends React.Component {
             <tbody>
               {this.state.data.map(vulns =>
                 <tr>
-                  <th scope="row">{this.state.count++}</th>
+                  <th scope="row">{countt}</th>
                   <td>{vulns.idnessus}</td>
                   <td>{vulns.cve}</td>
                   <td>{vulns.name}</td>
@@ -187,7 +188,7 @@ class App extends React.Component {
           <ModalBody>
             <div className="containerforms">
               <form className="form" onSubmit={this.prevent}>
-                <input className="form-control" type="text" name="idvulns" placeholder={this.state.count++} readOnly onChange={this.handleChange} value={this.state ? this.state.idvulns : this.state.count}/>
+                <input className="form-control" type="text" name="idvulns" placeholder={countt} readOnly onChange={this.handleChange} value={this.state ? this.state.idvulns : this.state.count}/>
                 <input type="number" class="form-control" placeholder="Id nessus" name="idnessus" value={this.state ? this.state.idnessus : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="CVE" name="cve" value={this.state ? this.state.cve : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="Nombre de la vulnerabilidad" name="name" value={this.state ? this.state.name : ''} onChange={this.handleChange} />
@@ -201,7 +202,7 @@ class App extends React.Component {
           </ModalBody>
 
           <ModalFooter style={{ backgroundColor: '#a1a1a1' }}>
-            {this.state.tipoModal == 'insertar' ?
+            {this.state.tipoModal === 'insertar' ?
               <button className="btn btn-success" onClick={() => this.peticionPost()}>
                 Insertar
                   </button> : <button className="btn btn-primary" onClick={() => this.peticionUpdate()}>
