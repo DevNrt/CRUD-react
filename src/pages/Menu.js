@@ -1,11 +1,11 @@
 import React from 'react';
-import './App.css';
+import '../css/Menu.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 
 
-class App extends React.Component {
+class Menu extends React.Component {
 
 
   state = {
@@ -22,7 +22,7 @@ class App extends React.Component {
     idvulns: '',
     tipoModal: '',
     cliente:'',
-    count: 1
+    count: '1'
   }
 
   //peticiones 
@@ -138,7 +138,6 @@ class App extends React.Component {
 
 
   render() {
-    const countt = this.setState({count:+1})
     return (
       <div className="App">
         <div className="insert">
@@ -164,7 +163,7 @@ class App extends React.Component {
             <tbody>
               {this.state.data.map(vulns =>
                 <tr>
-                  <th scope="row">{countt}</th>
+                  <th scope="row">{vulns.idvulns}</th>
                   <td>{vulns.idnessus}</td>
                   <td>{vulns.cve}</td>
                   <td>{vulns.name}</td>
@@ -188,7 +187,7 @@ class App extends React.Component {
           <ModalBody>
             <div className="containerforms">
               <form className="form" onSubmit={this.prevent}>
-                <input className="form-control" type="text" name="idvulns" placeholder={countt} readOnly onChange={this.handleChange} value={this.state ? this.state.idvulns : this.state.count}/>
+                <input className="form-control" type="text" name="idvulns" placeholder={this.state.idvulns} readOnly onChange={this.handleChange} value={this.state ? this.state.idvulns : this.state.count}/>
                 <input type="number" class="form-control" placeholder="Id nessus" name="idnessus" value={this.state ? this.state.idnessus : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="CVE" name="cve" value={this.state ? this.state.cve : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="Nombre de la vulnerabilidad" name="name" value={this.state ? this.state.name : ''} onChange={this.handleChange} />
@@ -232,4 +231,4 @@ class App extends React.Component {
 
 
 
-export default App;
+export default Menu;
