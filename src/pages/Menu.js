@@ -3,7 +3,9 @@ import '../css/Menu.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
-
+import Cookies from 'universal-cookie';
+ 
+const cookies = new Cookies();
 
 class Menu extends React.Component {
 
@@ -53,6 +55,8 @@ class Menu extends React.Component {
         console.log(res)
         this.modalInsertar();
         this.peticionGet();
+      }).catch(error => {
+        console.log(error.message)
       })
   }
 
@@ -86,10 +90,10 @@ class Menu extends React.Component {
       cliente: this.state.cliente
     })
       .then(res => {
-        console.log(this.state.idnessus)
-        console.log(res)
         this.modalInsertar();
         this.peticionGet();
+      }).catch(error => {
+        console.log(error.message)
       })
   }
   //delete
@@ -131,8 +135,13 @@ class Menu extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({count:'1'})
-    this.peticionGet();
+    if(cookies.get('jwt') === undefined){
+      window.location.href="./";
+      alert(`Inicia sesión`);
+    } else{
+      this.setState({count:'1'})
+      this.peticionGet();
+    }
   }
 
 

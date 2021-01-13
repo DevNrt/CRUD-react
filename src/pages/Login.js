@@ -1,89 +1,89 @@
 import React, { Component } from 'react';
 import '../css/Login.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
-import md5 from 'md5';
+import Axios from 'axios';
 import Cookies from 'universal-cookie';
-
-const baseUrl="http://localhost:3001/usuarios";
+ 
 const cookies = new Cookies();
-
+ 
 class Login extends Component {
-    state={
-        form:{
+    state = {
+        form: {
             username: '',
-            password: ''
+            pass: ''
         }
     }
 
-    handleChange=async e=>{
+    handleChange = async e => {
+
         await this.setState({
-            form:{
+            form: {
                 ...this.state.form,
                 [e.target.name]: e.target.value
             }
+
         });
     }
 
-    iniciarSesion=async()=>{
-        await axios.get(baseUrl, {params: {username: this.state.form.username, password: md5(this.state.form.password)}})
-        .then(response=>{
-            return response.data;
-        })
-        .then(response=>{
-            if(response.length>0){
-                var respuesta=response[0];
-                cookies.set('id', respuesta.id, {path: "/"});
-                cookies.set('apellido_paterno', respuesta.apellido_paterno, {path: "/"});
-                cookies.set('apellido_materno', respuesta.apellido_materno, {path: "/"});
-                cookies.set('nombre', respuesta.nombre, {path: "/"});
-                cookies.set('username', respuesta.username, {path: "/"});
-                alert(`Bienvenido ${respuesta.nombre} ${respuesta.apellido_paterno}`);
+    insertLogin = () => {
+        Axios.post("http://localhost:8000/insertLogin", {
+            username: this.state.form.username, 
+            pass: this.state.form.pass
+        }).then(res => {
+            if(res.data === 'True'){
+                alert(`Bienvenido ${this.state.form.username}`);
                 window.location.href="./menu";
             }else{
-                alert('El usuario o la contraseña no son correctos');
+                alert(`error`);
             }
         })
-        .catch(error=>{
-            console.log(error);
+    }
+
+    login = () => {
+        Axios.post("http://localhost:8000/login", {
+            username: this.state.form.username, 
+            pass: this.state.form.pass
+        }).then(res => {
+            if(res.status === 200){
+                cookies.set('jwt',res.data.result, { path: '/' });
+                alert(`Bienvenido ${this.state.form.username}`);
+                window.location.href="./menu";
+            }
+        }).catch(err =>{
+            alert(`${err.response.data}`);
         })
-
     }
 
-    componentDidMount() {
-        if(cookies.get('username')){
-            window.location.href="./menu";
-        }
-    }
-    
+
 
     render() {
         return (
-    <div className="containerPrincipal">
-        <div className="containerSecundario">
-          <div className="form-group">
-            <label>Usuario: </label>
-            <br />
-            <input
-              type="text"
-              className="form-control"
-              name="username"
-              onChange={this.handleChange}
-            />
-            <br />
-            <label>Contraseña: </label>
-            <br />
-            <input
-              type="password"
-              className="form-control"
-              name="password"
-              onChange={this.handleChange}
-            />
-            <br />
-            <button className="btn btn-primary" onClick={()=> this.iniciarSesion()}>Iniciar Sesión</button>
-          </div>
-        </div>
-      </div>
+            <div className="containerPrincipal">
+                <div className="containerSecundario">
+                    <div className="form-group">
+                        <label>Usuario: </label>
+                        <br />
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="username"
+                            onChange={this.handleChange}
+                        />
+                        <br />
+                        <label>Contraseña: </label>
+                        <br />
+                        <input
+                            type="password"
+                            className="form-control"
+                            name="pass"
+                            onChange={this.handleChange}
+                        />
+                        <br />
+                        <button className="btn btn-primary" onClick={() => this.login()}>Iniciar Sesión</button>
+                        <button className="btn btn-primary" onClick={() => this.insertLogin()}>Registrar</button>
+                    </div>
+                </div>
+            </div>
         );
     }
 }
