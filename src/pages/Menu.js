@@ -134,6 +134,11 @@ class Menu extends React.Component {
     event.preventDefault();
   }
 
+  remove = () => {
+    cookies.remove('jwt');
+    window.location.href="./";
+  }
+
   componentDidMount() {
     if(cookies.get('jwt') === undefined){
       window.location.href="./";
@@ -151,6 +156,7 @@ class Menu extends React.Component {
       <div className="App">
         <div className="insert">
           <button className="btn btn-success" onClick={() => { this.setState({ count:1 ,idnessus: '', cve: '', name: '', description: '', advice: '', referencias: '', csv: '', cliente:'', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
+          <button className="btn btn-danger" style={{marginTop:'20px'}} onClick={() =>this.remove()}>Cerrar sesión</button>
         </div>
         <div className="tabless">
           <table class="table table-striped">

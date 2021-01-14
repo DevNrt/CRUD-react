@@ -54,8 +54,10 @@ class Login extends Component {
         })
     }
 
-
-
+    componentDidMount(){
+        cookies.remove('jwt');
+    }
+    
     render() {
         return (
             <div className="containerPrincipal">
@@ -79,8 +81,8 @@ class Login extends Component {
                             onChange={this.handleChange}
                         />
                         <br />
-                        <button className="btn btn-primary" onClick={() => this.login()}>Iniciar Sesión</button>
-                        <button className="btn btn-primary" onClick={() => this.insertLogin()}>Registrar</button>
+                        <button className="btn btn-success" onClick={() => this.login()}>Iniciar Sesión</button>
+                        <button className="btn btn-primary" style={{marginLeft:'20px'}} onClick={() => this.insertLogin()}>Registrar</button>
                     </div>
                 </div>
             </div>
