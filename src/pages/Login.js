@@ -45,7 +45,7 @@ class Login extends Component {
             pass: this.state.form.pass
         }).then(res => {
             if(res.status === 200){
-                cookies.set('jwt',res.data.result, { path: '/' });
+                cookies.set('jwt',res.data.token, { path: '/' });
                 alert(`Bienvenido ${this.state.form.username}`);
                 window.location.href="./menu";
             }
