@@ -34,7 +34,7 @@ class Login extends Component {
                 alert(`Bienvenido ${this.state.form.username}`);
                 window.location.href="./menu";
             }else{
-                alert(`error`);
+                alert(`error ${res.data}`);
             }
         })
     }

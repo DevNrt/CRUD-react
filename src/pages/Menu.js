@@ -41,6 +41,9 @@ class Menu extends React.Component {
 
   peticionPost = async () => {
     this.setState({count:'1'})
+    if(this.state.idnessus === "" || this.state.cve === "" || this.state.name === "" || this.state.description === "" || this.state.advice === "" || this.state.referencias === "" || this.state.csv === "" || this.state.cliente === "" ){
+      alert(`Faltan datos`);
+    }else{
     await Axios.post("http://localhost:8000/insert", {
       idnessus: this.state.idnessus,
       cve: this.state.cve,
@@ -52,13 +55,13 @@ class Menu extends React.Component {
       cliente: this.state.cliente
     })
       .then(res => {
-        console.log(res)
         this.modalInsertar();
         this.peticionGet();
       }).catch(error => {
         console.log(error.message)
       })
   }
+}
 
   selectVuln = (vulns) => {
     this.setState({count:'1'})
