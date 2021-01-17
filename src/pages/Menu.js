@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Cookies from 'universal-cookie';
- 
+
 const cookies = new Cookies();
 
 class Menu extends React.Component {
@@ -23,14 +23,14 @@ class Menu extends React.Component {
     csv: '',
     idvulns: '',
     tipoModal: '',
-    cliente:'',
+    cliente: '',
     count: '1'
   }
 
   //peticiones 
 
   peticionGet = () => {
-    this.setState({count:'1'})
+    this.setState({ count: '1' })
     Axios.get("http://localhost:8000/select")
       .then((response) => {
         this.setState({ data: response.data });
@@ -40,31 +40,31 @@ class Menu extends React.Component {
   }
 
   peticionPost = async () => {
-    this.setState({count:'1'})
-    if(this.state.idnessus === "" || this.state.cve === "" || this.state.name === "" || this.state.description === "" || this.state.advice === "" || this.state.referencias === "" || this.state.csv === "" || this.state.cliente === "" ){
+    this.setState({ count: '1' })
+    if (this.state.idnessus === "" || this.state.cve === "" || this.state.name === "" || this.state.description === "" || this.state.advice === "" || this.state.referencias === "" || this.state.csv === "" || this.state.cliente === "") {
       alert(`Faltan datos`);
-    }else{
-    await Axios.post("http://localhost:8000/insert", {
-      idnessus: this.state.idnessus,
-      cve: this.state.cve,
-      name: this.state.name,
-      description: this.state.description,
-      advice: this.state.advice,
-      referencias: this.state.referencias,
-      csv: this.state.csv,
-      cliente: this.state.cliente
-    })
-      .then(res => {
-        this.modalInsertar();
-        this.peticionGet();
-      }).catch(error => {
-        console.log(error.message)
+    } else {
+      await Axios.post("http://localhost:8000/insert", {
+        idnessus: this.state.idnessus,
+        cve: this.state.cve,
+        name: this.state.name,
+        description: this.state.description,
+        advice: this.state.advice,
+        referencias: this.state.referencias,
+        csv: this.state.csv,
+        cliente: this.state.cliente
       })
+        .then(res => {
+          this.modalInsertar();
+          this.peticionGet();
+        }).catch(error => {
+          console.log(error.message)
+        })
+    }
   }
-}
 
   selectVuln = (vulns) => {
-    this.setState({count:'1'})
+    this.setState({ count: '1' })
     this.setState({
       tipoModal: 'actualizar',
       idvulns: vulns.idvulns,
@@ -80,29 +80,33 @@ class Menu extends React.Component {
   }
 
   peticionUpdate = async () => {
-    this.setState({count:'1'})
-    await Axios.post("http://localhost:8000/update", {
-      idvulns: this.state.idvulns,
-      idnessus: this.state.idnessus,
-      cve: this.state.cve,
-      name: this.state.name,
-      description: this.state.description,
-      advice: this.state.advice,
-      referencias: this.state.referencias,
-      csv: this.state.csv,
-      cliente: this.state.cliente
-    })
-      .then(res => {
-        this.modalInsertar();
-        this.peticionGet();
-      }).catch(error => {
-        console.log(error.message)
+    this.setState({ count: '1' })
+    if (this.state.idnessus === "" || this.state.cve === "" || this.state.name === "" || this.state.description === "" || this.state.advice === "" || this.state.referencias === "" || this.state.csv === "" || this.state.cliente === "") {
+      alert(`Faltan datos`);
+    } else {
+      await Axios.post("http://localhost:8000/update", {
+        idvulns: this.state.idvulns,
+        idnessus: this.state.idnessus,
+        cve: this.state.cve,
+        name: this.state.name,
+        description: this.state.description,
+        advice: this.state.advice,
+        referencias: this.state.referencias,
+        csv: this.state.csv,
+        cliente: this.state.cliente
       })
+        .then(res => {
+          this.modalInsertar();
+          this.peticionGet();
+        }).catch(error => {
+          console.log(error.message)
+        })
+    }
   }
   //delete
 
   peticionDelete = () => {
-    this.setState({count:'1'})
+    this.setState({ count: '1' })
     Axios.get("http://localhost:8000/delete",
       {
         params: {
@@ -110,7 +114,7 @@ class Menu extends React.Component {
         }
       })
       .then((response) => {
-        this.setState({modalEliminar: false});
+        this.setState({ modalEliminar: false });
         this.peticionGet();
       }).catch(error => {
         console.log(error.message)
@@ -118,12 +122,12 @@ class Menu extends React.Component {
   }
 
   modalInsertar = () => {
-    this.setState({count:'1'})
+    this.setState({ count: '1' })
     this.setState({ modalInsertar: !this.state.modalInsertar })
   }
 
   handleChange = async event => {
-    this.setState({count:'1'})
+    this.setState({ count: '1' })
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -133,21 +137,21 @@ class Menu extends React.Component {
   }
 
   prevent = event => {
-    this.setState({count:'1'})
+    this.setState({ count: '1' })
     event.preventDefault();
   }
 
   remove = () => {
     cookies.remove('jwt');
-    window.location.href="./";
+    window.location.href = "./";
   }
 
   componentDidMount() {
-    if(cookies.get('jwt') === undefined){
-      window.location.href="./";
+    if (cookies.get('jwt') === undefined) {
+      window.location.href = "./";
       alert(`Inicia sesión`);
-    } else{
-      this.setState({count:'1'})
+    } else {
+      this.setState({ count: '1' })
       this.peticionGet();
     }
   }
@@ -158,8 +162,8 @@ class Menu extends React.Component {
     return (
       <div className="App">
         <div className="insert">
-          <button className="btn btn-success" onClick={() => { this.setState({ count:1 ,idnessus: '', cve: '', name: '', description: '', advice: '', referencias: '', csv: '', cliente:'', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
-          <button className="btn btn-danger" style={{marginTop:'20px'}} onClick={() =>this.remove()}>Cerrar sesión</button>
+          <button className="btn btn-success" onClick={() => { this.setState({ count: 1, idnessus: '', cve: '', name: '', description: '', advice: '', referencias: '', csv: '', cliente: '', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
+          <button className="btn btn-danger" style={{ marginTop: '20px' }} onClick={() => this.remove()}>Cerrar sesión</button>
         </div>
         <div className="tabless">
           <table class="table table-striped">
@@ -191,7 +195,7 @@ class Menu extends React.Component {
                   <td>{vulns.csv}</td>
                   <td>{vulns.cliente}</td>
                   <td><button class="btn btn-info" onClick={() => { this.selectVuln(vulns); this.modalInsertar() }}>Actualizar</button></td>
-                  <td><button class="btn btn-danger" onClick={() => { this.selectVuln(vulns); this.setState({modalEliminar:true})}}>Eliminar</button></td>
+                  <td><button class="btn btn-danger" onClick={() => { this.selectVuln(vulns); this.setState({ modalEliminar: true }) }}>Eliminar</button></td>
                 </tr>
               )}
             </tbody>
@@ -205,7 +209,7 @@ class Menu extends React.Component {
           <ModalBody>
             <div className="containerforms">
               <form className="form" onSubmit={this.prevent}>
-                <input className="form-control" type="text" name="idvulns" placeholder={this.state.idvulns} readOnly onChange={this.handleChange} value={this.state ? this.state.idvulns : this.state.count}/>
+                <input className="form-control" type="text" name="idvulns" placeholder={this.state.idvulns} readOnly onChange={this.handleChange} value={this.state ? this.state.idvulns : this.state.count} />
                 <input type="number" class="form-control" placeholder="Id nessus" name="idnessus" value={this.state ? this.state.idnessus : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="CVE" name="cve" value={this.state ? this.state.cve : ''} onChange={this.handleChange} />
                 <input type="text" class="form-control" placeholder="Nombre de la vulnerabilidad" name="name" value={this.state ? this.state.name : ''} onChange={this.handleChange} />
