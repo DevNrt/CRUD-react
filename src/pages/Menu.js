@@ -4,8 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Axios from 'axios';
 import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import Cookies from 'universal-cookie';
+import ExportExcel from 'react-export-excel'
 
 const cookies = new Cookies();
+const ExcelFile = ExportExcel.ExcelFile;
+const ExcelSheet = ExportExcel.ExcelSheet;
+const ExcelColumn = ExportExcel.ExcelColumn;
+
 
 class Menu extends React.Component {
 
@@ -62,6 +67,7 @@ class Menu extends React.Component {
         })
     }
   }
+  //selección de vulnerabilidad 
 
   selectVuln = (vulns) => {
     this.setState({ count: '1' })
@@ -78,6 +84,8 @@ class Menu extends React.Component {
       cliente: this.state.cliente
     })
   }
+
+
 
   peticionUpdate = async () => {
     this.setState({ count: '1' })
@@ -163,7 +171,20 @@ class Menu extends React.Component {
       <div className="App">
         <div className="insert">
           <button className="btn btn-success" onClick={() => { this.setState({ count: 1, idnessus: '', cve: '', name: '', description: '', advice: '', referencias: '', csv: '', cliente: '', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
-          <button className="btn btn-danger" style={{ marginTop: '20px' }} onClick={() => this.remove()}>Cerrar sesión</button>
+          <ExcelFile element={<button className="btn btn-success" style={{ marginLeft: '20px' }} >Exportar a Excel</button>} filename="vulnerabilidades">
+          <ExcelSheet data={this.state.data} name="vulns">
+            <ExcelColumn label="idvulns" value="idvulns" />
+            <ExcelColumn label="idnessus" value="idnessus" />
+            <ExcelColumn label="cve" value="cve" />
+            <ExcelColumn label="name" value="name" />
+            <ExcelColumn label="description" value="description" />
+            <ExcelColumn label="advice" value="advice" />
+            <ExcelColumn label="referencias" value="referencias" />
+            <ExcelColumn label="csv" value="csv" />
+            <ExcelColumn label="cliente" value="cliente" />
+          </ExcelSheet>
+        </ExcelFile>
+        <button className="btn btn-danger" style={{ marginTop: '20px' }} onClick={() => this.remove()}>Cerrar sesión</button>
         </div>
         <div className="tabless">
           <table class="table table-striped">
@@ -226,9 +247,9 @@ class Menu extends React.Component {
             {this.state.tipoModal === 'insertar' ?
               <button className="btn btn-success" onClick={() => this.peticionPost()}>
                 Insertar
-                  </button> : <button className="btn btn-primary" onClick={() => this.peticionUpdate()}>
+              </button> : <button className="btn btn-primary" onClick={() => this.peticionUpdate()}>
                 Actualizar
-                  </button>
+              </button>
             }
             <button className="btn btn-danger" onClick={() => this.modalInsertar()}>Cancelar</button>
           </ModalFooter>
