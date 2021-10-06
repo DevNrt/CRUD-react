@@ -29,11 +29,14 @@ class Login extends Component {
         Axios.post("http://localhost:8000/insertLogin", {
             username: this.state.form.username, 
             pass: this.state.form.pass
+            
         }).then(res => {
             if(res.data === 'True'){
+                
                 alert(`Bienvenido ${this.state.form.username}`);
                 window.location.href="./menu";
             }else{
+               
                 alert(`error ${res.data}`);
             }
         })

@@ -1,0 +1,54 @@
+.App {
+    display: flex;
+    text-align: center;
+    flex-direction: row;
+  }
+  
+  .form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color:#a1a1a1;
+    height: 550px;
+    border-radius: 5%; 
+  }
+  
+  .form input{
+    width: 200px;
+    margin-top: 1px;
+  }
+  .form textarea{
+    width: 400px;
+    margin-top: 10px;
+  }
+  
+  .header{
+    display: flex;
+    background-color:#a1a1a1 ;
+    border-radius: 20%; 
+  }
+  
+  .header label{
+    margin-left: 90px;
+    font-size: 150%;
+    color: white;
+  }
+  
+  
+  .tabless{
+    display: flex;
+    flex-direction: column;
+    width: 1300px;
+  }
+  
+  .containerforms{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .insert{
+    margin:20px;
+  }
+  
+  

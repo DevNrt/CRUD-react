@@ -19,16 +19,23 @@ class Menu extends React.Component {
     data: [],
     modalInsertar: false,
     modalEliminar: false,
-    name: '',
-    idnessus: '',
-    cve: '',
-    description: '',
-    advice: '',
-    referencias: '',
-    csv: '',
-    idvulns: '',
-    tipoModal: '',
-    cliente: '',
+    idteletrabajadores: '',
+    HoraTrabajo: '',
+    HoraPersonal: '',
+    HoraTerminar: '',
+    SatisTeletrabajo: '',
+    SatisHabitos: '',
+    SatisPausas: '',
+    SatisActivClave: '',
+    ModoAvion: '',
+    SatisExceder: '',
+    Ejercicio: '',
+    Familiar: '',
+    SatisFiscaMental: '',
+    Dolores: '',
+    Transtornos: '',
+    Ansiedad: '',
+    Estres: '',
     count: '1'
   }
 
@@ -46,18 +53,28 @@ class Menu extends React.Component {
 
   peticionPost = async () => {
     this.setState({ count: '1' })
-    if (this.state.idnessus === "" || this.state.cve === "" || this.state.name === "" || this.state.description === "" || this.state.advice === "" || this.state.referencias === "" || this.state.csv === "" || this.state.cliente === "") {
-      alert(`Faltan datos`);
+    if (this.state.HoraTrabajo === "" || this.state.HoraPersonal === "" || this.state.HoraTerminar === "" || this.state.SatisTeletrabajo === "" || this.state.SatisHabitos === "" || this.state.SatisPausas === "" || this.state.SatisActivClave === "" || this.state.ModoAvion === ""|| this.state.SatisExceder === ""|| this.state.Ejercicio === ""|| this.state.Familiar === ""|| this.state.SatisFiscaMental === ""|| this.state.Dolores === ""|| this.state.Transtornos === ""|| this.state.Ansiedad === ""|| this.state.Estres === "") {
+      
+      alert('FALTAN DATOS');
+
     } else {
       await Axios.post("http://localhost:8000/insert", {
-        idnessus: this.state.idnessus,
-        cve: this.state.cve,
-        name: this.state.name,
-        description: this.state.description,
-        advice: this.state.advice,
-        referencias: this.state.referencias,
-        csv: this.state.csv,
-        cliente: this.state.cliente
+        HoraTrabajo: this.state.HoraTrabajo,
+        HoraPersonal: this.state.HoraPersonal,
+        HoraTerminar: this.state.HoraTerminar,
+        SatisTeletrabajo: this.state.SatisTeletrabajo,
+        SatisHabitos: this.state.SatisHabitos,
+        SatisPausas: this.state.SatisPausas,
+        SatisActivClave: this.state.SatisActivClave,
+        ModoAvion: this.state.ModoAvion,
+        SatisExceder: this.state.SatisExceder,
+        Ejercicio: this.state.Ejercicio,
+        Familiar: this.state.Familiar,
+        SatisFiscaMental: this.state.SatisFiscaMental,
+        Dolores: this.state.Dolores,
+        Transtornos: this.state.Transtornos,
+        Ansiedad: this.state.Ansiedad,
+        Estres: this.state.Estres
       })
         .then(res => {
           this.modalInsertar();
@@ -67,58 +84,15 @@ class Menu extends React.Component {
         })
     }
   }
-  //selección de vulnerabilidad 
-
-  selectVuln = (vulns) => {
-    this.setState({ count: '1' })
-    this.setState({
-      tipoModal: 'actualizar',
-      idvulns: vulns.idvulns,
-      idnessus: vulns.idnessus,
-      name: vulns.name,
-      cve: vulns.cve,
-      description: vulns.description,
-      advice: vulns.advice,
-      referencias: vulns.referencias,
-      csv: vulns.csv,
-      cliente: this.state.cliente
-    })
-  }
-
-
-
-  peticionUpdate = async () => {
-    this.setState({ count: '1' })
-    if (this.state.idnessus === "" || this.state.cve === "" || this.state.name === "" || this.state.description === "" || this.state.advice === "" || this.state.referencias === "" || this.state.csv === "" || this.state.cliente === "") {
-      alert(`Faltan datos`);
-    } else {
-      await Axios.post("http://localhost:8000/update", {
-        idvulns: this.state.idvulns,
-        idnessus: this.state.idnessus,
-        cve: this.state.cve,
-        name: this.state.name,
-        description: this.state.description,
-        advice: this.state.advice,
-        referencias: this.state.referencias,
-        csv: this.state.csv,
-        cliente: this.state.cliente
-      })
-        .then(res => {
-          this.modalInsertar();
-          this.peticionGet();
-        }).catch(error => {
-          console.log(error.message)
-        })
-    }
-  }
-  //delete
+  
 
   peticionDelete = () => {
+    
     this.setState({ count: '1' })
     Axios.get("http://localhost:8000/delete",
       {
         params: {
-          idvulns: this.state.idvulns
+          idteletrabajadores: this.state.idteletrabajadores
         }
       })
       .then((response) => {
@@ -144,6 +118,7 @@ class Menu extends React.Component {
     });
   }
 
+
   prevent = event => {
     this.setState({ count: '1' })
     event.preventDefault();
@@ -164,24 +139,37 @@ class Menu extends React.Component {
     }
   }
 
+  ventanaConsejos (){
+    window.location.href="./consejos";
+  }
+  
 
 
   render() {
     return (
       <div className="App">
         <div className="insert">
-          <button className="btn btn-success" onClick={() => { this.setState({ count: 1, idnessus: '', cve: '', name: '', description: '', advice: '', referencias: '', csv: '', cliente: '', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
-          <ExcelFile element={<button className="btn btn-success" style={{ marginLeft: '20px' }} >Exportar a Excel</button>} filename="vulnerabilidades">
-          <ExcelSheet data={this.state.data} name="vulns">
-            <ExcelColumn label="idvulns" value="idvulns" />
-            <ExcelColumn label="idnessus" value="idnessus" />
-            <ExcelColumn label="cve" value="cve" />
-            <ExcelColumn label="name" value="name" />
-            <ExcelColumn label="description" value="description" />
-            <ExcelColumn label="advice" value="advice" />
-            <ExcelColumn label="referencias" value="referencias" />
-            <ExcelColumn label="csv" value="csv" />
-            <ExcelColumn label="cliente" value="cliente" />
+          <button className="btn btn-success" onClick={() => { this.setState({ count: 1, HoraTrabajo: '', HoraPersonal: '', HoraTerminar: '', SatisTeletrabajo: '', SatisHabitos: '', SatisPausas: '', SatisActivClave: '', ModoAvion: '', SatisExceder: '', Ejercicio: '', Familiar: '', SatisFiscaMental: '', Dolores: '', Transtornos: '', Ansiedad: '', Estres: '', tipoModal: 'insertar' }); this.modalInsertar() }}>Agregar</button>
+          <button className="btn btn-success" style={{ marginTop: '20px' }} onClick={() => this.ventanaConsejos()}>Consejos</button>
+          <ExcelFile element={<button className="btn btn-success" style={{ marginLeft: '5px', marginTop:'20px' }} >Exportar a Excel</button>} filename="teletrabajadores">
+          <ExcelSheet data={this.state.data} name="teletrabajador">
+            <ExcelColumn label="idpersona" value="idpersona" />
+            <ExcelColumn label="HoraTrabajo" value="HoraTrabajo" />
+            <ExcelColumn label="HoraPersonal" value="HoraPersonal" />
+            <ExcelColumn label="HoraTerminar" value="HoraTerminar" />
+            <ExcelColumn label="SatisTeletrabajo" value="SatisTeletrabajo" />
+            <ExcelColumn label="SatisHabitos" value="SatisHabitos" />
+            <ExcelColumn label="SatisPausas" value="SatisPausas" />
+            <ExcelColumn label="SatisActivClave" value="SatisActivClave" />
+            <ExcelColumn label="ModoAvion" value="ModoAvion" />
+            <ExcelColumn label="SatisExceder" value="SatisExceder" />
+            <ExcelColumn label="Ejercicio" value="Ejercicio" />
+            <ExcelColumn label="Familiar" value="Familiar" />
+            <ExcelColumn label="SatisFisicaMental" value="SatisFisicaMental" />
+            <ExcelColumn label="Dolores" value="Dolores" />
+            <ExcelColumn label="Transtornos" value="Transtornos" />
+            <ExcelColumn label="Ansiedad" value="Ansiedad" />
+            <ExcelColumn label="Estres" value="Estres" />
           </ExcelSheet>
         </ExcelFile>
         <button className="btn btn-danger" style={{ marginTop: '20px' }} onClick={() => this.remove()}>Cerrar sesión</button>
@@ -191,32 +179,46 @@ class Menu extends React.Component {
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">IdNessus</th>
-                <th scope="col">CVE</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Consejos</th>
-                <th scope="col">Referencias</th>
-                <th scope="col">CSV</th>
-                <th scope="col">Cliente</th>
-                <th scope="col">Actualizar</th>
+                <th scope="col">HoraTrabajo</th>
+                <th scope="col">HoraPersonal</th>
+                <th scope="col">HoraTerminar</th>
+                <th scope="col">SatisTeletrabajo</th>
+                <th scope="col">SatisHabitos</th>
+                <th scope="col">SatisPausas</th>
+                <th scope="col">SatisActivClave</th>
+                <th scope="col">ModoAvion</th>
+                <th scope="col">SatisExceder</th>
+                <th scope="col">Ejercicio</th>
+                <th scope="col">Familiar</th>
+                <th scope="col">SatisFisicaMental</th>
+                <th scope="col">Dolores</th>
+                <th scope="col">Transtornos</th>
+                <th scope="col">Ansiedad</th>
+                <th scope="col">Estres</th>
                 <th scope="col">Eliminar</th>
               </tr>
             </thead>
             <tbody>
-              {this.state.data.map(vulns =>
+              {this.state.data.map(teletrabajadores =>
                 <tr>
-                  <th scope="row">{vulns.idvulns}</th>
-                  <td>{vulns.idnessus}</td>
-                  <td>{vulns.cve}</td>
-                  <td>{vulns.name}</td>
-                  <td>{vulns.description}</td>
-                  <td>{vulns.advice}</td>
-                  <td>{vulns.referencias}</td>
-                  <td>{vulns.csv}</td>
-                  <td>{vulns.cliente}</td>
-                  <td><button class="btn btn-info" onClick={() => { this.selectVuln(vulns); this.modalInsertar() }}>Actualizar</button></td>
-                  <td><button class="btn btn-danger" onClick={() => { this.selectVuln(vulns); this.setState({ modalEliminar: true }) }}>Eliminar</button></td>
+                  <th scope="row">{teletrabajadores.idteletrabajadores}</th>
+                  <td>{teletrabajadores.HoraTrabajo}</td>
+                  <td>{teletrabajadores.HoraPersonal}</td>
+                  <td>{teletrabajadores.HoraTerminar}</td>
+                  <td>{teletrabajadores.SatisTeletrabajo}</td>
+                  <td>{teletrabajadores.SatisHabitos}</td>
+                  <td>{teletrabajadores.SatisPausas}</td>
+                  <td>{teletrabajadores.SatisActivClave}</td>
+                  <td>{teletrabajadores.ModoAvion}</td>
+                  <td>{teletrabajadores.SatisExceder}</td>
+                  <td>{teletrabajadores.Ejercicio}</td>
+                  <td>{teletrabajadores.Familiar}</td>
+                  <td>{teletrabajadores.SatisFiscaMental}</td>
+                  <td>{teletrabajadores.Dolores}</td>
+                  <td>{teletrabajadores.Transtornos}</td>
+                  <td>{teletrabajadores.Ansiedad}</td>
+                  <td>{teletrabajadores.Estres}</td>
+                  <td><button class="btn btn-danger" onClick={() => {  this.setState({ modalEliminar: true }) }}>Eliminar</button></td>
                 </tr>
               )}
             </tbody>
@@ -230,35 +232,41 @@ class Menu extends React.Component {
           <ModalBody>
             <div className="containerforms">
               <form className="form" onSubmit={this.prevent}>
-                <input className="form-control" type="text" name="idvulns" placeholder={this.state.idvulns} readOnly onChange={this.handleChange} value={this.state ? this.state.idvulns : this.state.count} />
-                <input type="number" class="form-control" placeholder="Id nessus" name="idnessus" value={this.state ? this.state.idnessus : ''} onChange={this.handleChange} />
-                <input type="text" class="form-control" placeholder="CVE" name="cve" value={this.state ? this.state.cve : ''} onChange={this.handleChange} />
-                <input type="text" class="form-control" placeholder="Nombre de la vulnerabilidad" name="name" value={this.state ? this.state.name : ''} onChange={this.handleChange} />
-                <textarea type="text" class="form-control" placeholder="Descripción" name="description" value={this.state ? this.state.description : ''} onChange={this.handleChange} ></textarea>
-                <textarea type="text" class="form-control" placeholder="Consejos" name="advice" value={this.state ? this.state.advice : ''} onChange={this.handleChange} ></textarea>
-                <textarea type="text" class="form-control" placeholder="Referencias" name="referencias" value={this.state ? this.state.referencias : ''} onChange={this.handleChange} ></textarea>
-                <input type="number" class="form-control" placeholder="CSV" name="csv" value={this.state ? this.state.csv : ''} onChange={this.handleChange} />
-                <textarea type="text" class="form-control" placeholder="Cliente" name="cliente" value={this.state ? this.state.cliente : ''} onChange={this.handleChange} ></textarea>
+                <input className="form-control" type="text" name="idteletrabajadores" placeholder={this.state.idteletrabajadores} readOnly onChange={this.handleChange} value={this.state ? this.state.idteletrabajadores : this.state.count} />
+                <input type="number" class="form-control" placeholder="HoraTrabajo" name="HoraTrabajo" value={this.state ? this.state.HoraTrabajo : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="HoraPersonal" name="HoraPersonal" value={this.state ? this.state.HoraPersonal : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="HoraTerminar" name="HoraTerminar" value={this.state ? this.state.HoraTerminar : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="SatisTeletrabajo" name="SatisTeletrabajo" value={this.state ? this.state.SatisTeletrabajo : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="SatisHabitos" name="SatisHabitos" value={this.state ? this.state.SatisHabitos : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="SatisPausas" name="SatisPausas" value={this.state ? this.state.SatisPausas : ''} onChange={this.handleChange}/>
+                <input type="number" class="form-control" placeholder="SatisActivClave" name="SatisActivClave" value={this.state ? this.state.SatisActivClave : ''} onChange={this.handleChange} />
+                <input type="number" class="form-control" placeholder="ModoAvion" name="ModoAvion" value={this.state ? this.state.ModoAvion : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="SatisExceder" name="SatisExceder" value={this.state ? this.state.SatisExceder : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="Ejercicio" name="Ejercicio" value={this.state ? this.state.Ejercicio : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="Familiar" name="Familiar" value={this.state ? this.state.Familiar : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="SatisFiscaMental" name="SatisFiscaMental" value={this.state ? this.state.SatisFiscaMental : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="Dolores" name="Dolores" value={this.state ? this.state.Dolores : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="Transtornos" name="Transtornos" value={this.state ? this.state.Transtornos : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="Ansiedad" name="Ansiedad" value={this.state ? this.state.Ansiedad : ''} onChange={this.handleChange} />
+                <input type="number"  class="form-control" placeholder="Estres" name="Estres" value={this.state ? this.state.Estres : ''} onChange={this.handleChange} />
               </form>
             </div>
           </ModalBody>
-
           <ModalFooter style={{ backgroundColor: '#a1a1a1' }}>
             {this.state.tipoModal === 'insertar' ?
               <button className="btn btn-success" onClick={() => this.peticionPost()}>
                 Insertar
-              </button> : <button className="btn btn-primary" onClick={() => this.peticionUpdate()}>
-                Actualizar
-              </button>
+              </button> : '1'
             }
             <button className="btn btn-danger" onClick={() => this.modalInsertar()}>Cancelar</button>
           </ModalFooter>
+          
         </Modal>
 
 
         <Modal isOpen={this.state.modalEliminar}>
           <ModalBody>
-            Estás seguro que deseas eliminar a la vulnerabilidad
+            Estás seguro que deseas eliminar el dato
           </ModalBody>
           <ModalFooter>
             <button className="btn btn-danger" onClick={() => this.peticionDelete()}>Sí</button>
